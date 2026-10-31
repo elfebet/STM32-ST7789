@@ -1,0 +1,8 @@
+.DS_Store
+build
+
+# IDE & Editors
+.vscode/
+.settings/
+.clangd
+.mxproject
