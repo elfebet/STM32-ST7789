@@ -22,6 +22,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "dwt_timer.h"
+#include "st7789_driver.h"
+#include "gfx.h"
+#include "gfx_text.h"
+#include "stm32f4xx_hal.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,12 +98,30 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
+  st7789_spi_connected_data_t spi_data = {
+      .spi = &hspi1,
+      .dc = {TFT_DC_GPIO_Port, TFT_DC_Pin},
+      .cs = {TFT_CS_GPIO_Port, TFT_CS_Pin},
+      .rst = {TFT_RST_GPIO_Port, TFT_RST_Pin},
+      .blk = {TFT_BLK_GPIO_Port, TFT_BLK_Pin},
+  };
+  st7789_window_data_t window_data = {
+      .width = 240,
+      .height = 320,
+      .orientation = GFX_ORIENTATION_PORTRAIT,
+  };
+  st7789_init(&spi_data, &window_data);
+  gfx_init();
+  HAL_Delay(1000);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    gfx_tests();
+    gfx_text_tests();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
