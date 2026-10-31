@@ -1,9 +1,11 @@
 #include "gfx_text.h"
 #include "config.h"
+#include "fonts.h"
 #include "gfx.h"
 #include "st7789_driver.h"
 #if LCD_ENABLE_TESTS
-#include "af_fonts.h"
+#include "dwt_timer.h"
+#include "adafruit_fonts.h"
 #include "colors.h"
 #include <stdio.h>
 #endif
@@ -283,68 +285,68 @@ bool gfx_adafruit_get_text_bounds(uint16_t x, uint16_t y, const char *str, const
 // ---- TESTS ---------
 #if LCD_ENABLE_TESTS
 
+static char text_buf[32];
+static char subtext_buf[16];
+
+void gfx_test_draw_time(uint32_t elapsed_ms) {
+    snprintf(subtext_buf, sizeof(subtext_buf), "%lums", elapsed_ms);
+    snprintf(text_buf, sizeof(text_buf), "Time:%-10s", subtext_buf);
+    gfx_draw_text(4, 4, text_buf, &Font_7x10, COLOR_WHITE, COLOR_BROWN);
+}
+
 void gfx_test_font(const font_def_t *font, const char *name) {
     const char* ascii_string = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
     uint16_t bgcolor = COLOR_BLACK;
     uint16_t fgcolor = COLOR_WHITE;
     gfx_fill_screen(bgcolor);
 
-    uint32_t start_time = DWT->CYCCNT;
+    uint32_t start_time = dwt_get_time();
     gfx_draw_text(10, 20, name, font, fgcolor, bgcolor);
     gfx_draw_text(10, 50, "Hello world!", font, fgcolor, bgcolor);
-    gfx_draw_text(10, 80, "gymnastic", font, fgcolor, bgcolor);
-    gfx_draw_text(10, 110, "V(arg) = 0.25", font, fgcolor, bgcolor);
-    gfx_draw_text(10, 140, "V(rest) = 0,33", font, fgcolor, bgcolor);
-    gfx_draw_text(10, 180, ascii_string, font, fgcolor, bgcolor);
-    uint32_t elapsed_ms = (uint32_t)(((uint64_t)(DWT->CYCCNT - start_time) * 1000U) / SystemCoreClock);
-    printf("text1 time: %lu ms\r\n", elapsed_ms);
-    HAL_Delay(1000);
+    gfx_draw_text(10, 100, ascii_string, font, fgcolor, bgcolor);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
+    HAL_Delay(2000);
 }
 
 void gfx_test_fonts() {
+    gfx_test_font(&Font_5x7, "5x7");
     gfx_test_font(&Font_7x10, "7x10");
-    gfx_test_font(&Font_8x12, "8x12");
     gfx_test_font(&Font_11x18, "11x18");
     gfx_test_font(&Font_16x26, "16x26");
 }
 
-void gfx_test_af_font(const GFXfont *font, const char *name) {
+void gfx_test_adafruit_font(const GFXfont *font, const char *name) {
     uint16_t bgcolor = COLOR_BLACK;
     uint16_t fgcolor = COLOR_WHITE;
     gfx_fill_screen(bgcolor);
 
-    uint32_t start_time = DWT->CYCCNT;
+    uint32_t start_time = dwt_get_time();
     gfx_adafruit_draw_text(10, 40, name, font, fgcolor, bgcolor);
     gfx_adafruit_draw_text(10, 80, "Hello world!", font, fgcolor, bgcolor);
-    gfx_adafruit_draw_text(10, 120, "gymnastic", font, fgcolor, bgcolor);
-    gfx_adafruit_draw_text(10, 160, "V(arg) = 0.25", font, fgcolor, bgcolor);
-    gfx_adafruit_draw_text(10, 200, "V(rest) = 0,33", font, fgcolor, bgcolor);
-    uint32_t elapsed_ms = (uint32_t)(((uint64_t)(DWT->CYCCNT - start_time) * 1000U) / SystemCoreClock);
-    printf("[%s] time: %lu ms\r\n", name, elapsed_ms);
-    HAL_Delay(1000);
+    gfx_adafruit_draw_text(10, 140,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        font, fgcolor, bgcolor);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
+    HAL_Delay(2000);
 }
 
-void gfx_test_af_fonts(void) {
-    gfx_test_af_font(&RobotoMonoBold9pt7b, "Bold9pt7b");
-    gfx_test_af_font(&RobotoMonoMedium9pt7b, "Medium9pt7b");
-    gfx_test_af_font(&RobotoMonoRegular9pt7b, "Regular9pt7b");
+void gfx_test_adafruit_fonts(void) {
+    gfx_test_adafruit_font(&FreeMono9pt7b, "FreeMono9pt7b");
+    gfx_test_adafruit_font(&FreeMonoBold9pt7b, "FreeMonoBold9pt7b");
 
-    gfx_test_af_font(&RobotoMonoBold10pt7b, "Bold10pt7b");
-    gfx_test_af_font(&RobotoMonoMedium10pt7b, "Medium10pt7b");
-    gfx_test_af_font(&RobotoMonoRegular10pt7b, "Regular10pt7b");
+    gfx_test_adafruit_font(&FreeSans9pt7b, "FreeSans9pt7b");
+    gfx_test_adafruit_font(&FreeSansBold9pt7b, "FreeSansBold9pt7b");
 
-    gfx_test_af_font(&RobotoMonoBold11pt7b, "Bold11pt7b");
-    gfx_test_af_font(&RobotoMonoMedium11pt7b, "Medium11pt7b");
-    gfx_test_af_font(&RobotoMonoRegular11pt7b, "Regular11pt7b");
+    gfx_test_adafruit_font(&FreeSerif9pt7b, "FreeSerif9pt7b");
+    gfx_test_adafruit_font(&FreeSerifBold9pt7b, "FreeSerifBold9pt7b");
 
-    gfx_test_af_font(&RobotoMonoBold12pt7b, "Bold12pt7b");
-    gfx_test_af_font(&RobotoMonoMedium12pt7b, "Medium12pt7b");
-    gfx_test_af_font(&RobotoMonoRegular12pt7b, "Regular12pt7b");
+    gfx_test_adafruit_font(&RobotoMonoRegular9pt7b, "RobotoMono9pt7b");
+    gfx_test_adafruit_font(&RobotoMonoBold9pt7b, "RobotoMonoBold9pt7b");
 }
 
 void gfx_text_tests(void) {
     gfx_test_fonts();
-    // gfx_test_af_fonts();
+    gfx_test_adafruit_fonts();
 }
 
 #endif
