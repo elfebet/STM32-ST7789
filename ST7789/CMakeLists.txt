@@ -1,8 +1,8 @@
-# Автоматично шукаємо абсолютно всі .c файли всередині цієї папки
-file(GLOB ST7789_SOURCES "*.c" "src/*.c")
+file(GLOB ST7789_SOURCES "*.c" "adafruit_fonts/*.c")
 
-# Додаємо їх до загальної бібліотеки мікроконтролера
-target_sources(STM32_Drivers PRIVATE ${ST7789_SOURCES})
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${ST7789_SOURCES})
 
-# Автоматично підключаємо цю папку для інклудів .h
-target_include_directories(stm32cubemx INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/adafruit_fonts
+)
