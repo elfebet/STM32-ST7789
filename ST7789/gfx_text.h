@@ -25,6 +25,6 @@ void gfx_adafruit_draw_text(uint16_t x, uint16_t y, const char *str, const GFXfo
 bool gfx_adafruit_get_text_bounds(uint16_t x, uint16_t y, const char *str, const GFXfont *font, GFX_TextBounds *bounds);
 
 #if LCD_ENABLE_TESTS
-void gfx_tests_ascii_chars(void);
+void gfx_test_draw_time(uint32_t elapsed_ms);
 void gfx_text_tests(void);
 #endif

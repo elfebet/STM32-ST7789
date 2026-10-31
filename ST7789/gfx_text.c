@@ -285,12 +285,12 @@ bool gfx_adafruit_get_text_bounds(uint16_t x, uint16_t y, const char *str, const
 // ---- TESTS ---------
 #if LCD_ENABLE_TESTS
 
-static char text_buf[32];
-static char subtext_buf[16];
+static char text_buf[16];
+static char subtext_buf[8];
 
 void gfx_test_draw_time(uint32_t elapsed_ms) {
     snprintf(subtext_buf, sizeof(subtext_buf), "%lums", elapsed_ms);
-    snprintf(text_buf, sizeof(text_buf), "Time:%-10s", subtext_buf);
+    snprintf(text_buf, sizeof(text_buf), "Time:%-8s", subtext_buf);
     gfx_draw_text(4, 4, text_buf, &Font_7x10, COLOR_WHITE, COLOR_BROWN);
 }
 
@@ -308,13 +308,6 @@ void gfx_test_font(const font_def_t *font, const char *name) {
     HAL_Delay(2000);
 }
 
-void gfx_test_fonts() {
-    gfx_test_font(&Font_5x7, "5x7");
-    gfx_test_font(&Font_7x10, "7x10");
-    gfx_test_font(&Font_11x18, "11x18");
-    gfx_test_font(&Font_16x26, "16x26");
-}
-
 void gfx_test_adafruit_font(const GFXfont *font, const char *name) {
     uint16_t bgcolor = COLOR_BLACK;
     uint16_t fgcolor = COLOR_WHITE;
@@ -330,23 +323,20 @@ void gfx_test_adafruit_font(const GFXfont *font, const char *name) {
     HAL_Delay(2000);
 }
 
-void gfx_test_adafruit_fonts(void) {
+void gfx_text_tests(void) {
+    gfx_test_font(&Font_5x7, "5x7");
+    gfx_test_font(&Font_7x10, "7x10");
+    gfx_test_font(&Font_11x18, "11x18");
+    gfx_test_font(&Font_16x26, "16x26");
+
     gfx_test_adafruit_font(&FreeMono9pt7b, "FreeMono9pt7b");
     gfx_test_adafruit_font(&FreeMonoBold9pt7b, "FreeMonoBold9pt7b");
-
     gfx_test_adafruit_font(&FreeSans9pt7b, "FreeSans9pt7b");
     gfx_test_adafruit_font(&FreeSansBold9pt7b, "FreeSansBold9pt7b");
-
     gfx_test_adafruit_font(&FreeSerif9pt7b, "FreeSerif9pt7b");
     gfx_test_adafruit_font(&FreeSerifBold9pt7b, "FreeSerifBold9pt7b");
-
     gfx_test_adafruit_font(&RobotoMonoRegular9pt7b, "RobotoMono9pt7b");
     gfx_test_adafruit_font(&RobotoMonoBold9pt7b, "RobotoMonoBold9pt7b");
-}
-
-void gfx_text_tests(void) {
-    gfx_test_fonts();
-    gfx_test_adafruit_fonts();
 }
 
 #endif

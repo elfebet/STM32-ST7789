@@ -3,6 +3,8 @@
 #include "st7789_driver.h"
 #include "colors.h"
 #if LCD_ENABLE_TESTS
+#include "gfx_text.h"
+#include "dwt_timer.h"
 #include <stdio.h>
 #endif
 
@@ -104,41 +106,47 @@ void gfx_draw_bitmap(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint1
 #if LCD_ENABLE_TESTS
 
 void gfx_tests() {
-    uint32_t start_time = DWT->CYCCNT;
+    uint32_t start_time = dwt_get_time();
     gfx_fill_screen(COLOR_RED);
-    uint32_t elapsed_ms = (uint32_t)(((uint64_t)(DWT->CYCCNT - start_time) * 1000U) / SystemCoreClock);
-    printf("RED time: %lu ms\r\n", elapsed_ms);
-    HAL_Delay(500);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
+    HAL_Delay(1000);
 
-    start_time = DWT->CYCCNT;
+    start_time = dwt_get_time();
     gfx_fill_screen(COLOR_GREEN);
-    elapsed_ms = (uint32_t)(((uint64_t)(DWT->CYCCNT - start_time) * 1000U) / SystemCoreClock);
-    printf("GREEN time: %lu ms\r\n", elapsed_ms);
-    HAL_Delay(500);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
+    HAL_Delay(1000);
 
-    start_time = DWT->CYCCNT;
+    start_time = dwt_get_time();
     gfx_fill_screen(COLOR_BLUE);
-    elapsed_ms = (uint32_t)(((uint64_t)(DWT->CYCCNT - start_time) * 1000U) / SystemCoreClock);
-    printf("BLUE time: %lu ms\r\n", elapsed_ms);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
+    HAL_Delay(1000);
+
+    start_time = dwt_get_time();
+    gfx_fill_screen(COLOR_YELLOW);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
+    HAL_Delay(1000);
+
+    start_time = dwt_get_time();
+    gfx_fill_screen(COLOR_CYAN);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
     HAL_Delay(1000);
 
     const int screen_w = st7789_width();
     const int screen_h = st7789_height();
+    gfx_fill_screen(COLOR_BLACK);
 
-    start_time = DWT->CYCCNT;
+    start_time = dwt_get_time();
     for (int i=0; i < screen_w; i += 10) {
         gfx_draw_line(i, 0, i, screen_h, COLOR_WHITE);
     }
-    elapsed_ms = (uint32_t)(((uint64_t)(DWT->CYCCNT - start_time) * 1000U) / SystemCoreClock);
-    printf("V lines time: %lu ms\r\n", elapsed_ms);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
     HAL_Delay(1000);
 
-    start_time = DWT->CYCCNT;
+    start_time = dwt_get_time();
     for (int i=0; i < screen_h; i += 10) {
         gfx_draw_line(0, i, screen_w, i, COLOR_WHITE);
     }
-    elapsed_ms = (uint32_t)(((uint64_t)(DWT->CYCCNT - start_time) * 1000U) / SystemCoreClock);
-    printf("H lines time: %lu ms\r\n", elapsed_ms);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
     HAL_Delay(1000);
 
     gfx_fill_screen(COLOR_BLACK);
@@ -146,12 +154,12 @@ void gfx_tests() {
     int w = 100, h = 100;
     int x1 = screen_w/2 - w/2;
     int y1 = screen_h/2 - h/2;
-    start_time = DWT->CYCCNT;
+    start_time = dwt_get_time();
     gfx_fill_rect(x1, y1, x1 + w, y1 + h, COLOR_BLUE);
-    elapsed_ms = (uint32_t)(((uint64_t)(DWT->CYCCNT - start_time) * 1000U) / SystemCoreClock);
-    printf("RECT time: %lu ms\r\n", elapsed_ms);
+    gfx_test_draw_time(dwt_elapsed_ms(start_time));
     HAL_Delay(1000);
 
+    gfx_fill_screen(COLOR_BLACK);
     gfx_draw_rect(0, 0, screen_w - 1, screen_h - 1, COLOR_ORANGE);
     HAL_Delay(1000);
 
