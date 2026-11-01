@@ -17,11 +17,7 @@ The demo project is configured for the **STM32F401CCU6** and a **240 × 320** di
 
 ## Demo Video
 
-[Watch the driver demo](st7789v_demo.mp4)
-
-----
-
-<video src="st7789v_demo.mp4" width="100%" controls></video>
+https://github.com/user-attachments/assets/6f021558-bcc2-4d54-b50a-3eb97e57f52f
 
 ## Wiring
 
