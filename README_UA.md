@@ -1,3 +1,5 @@
+[Readme EN](README.md) | [Readme UA](README_UA.md)
+
 # Високошвидкісний драйвер ST7789 для STM32
 
 Драйвер для дисплеїв на контролері **ST7789**, що передає дані через SPI з використанням DMA.
@@ -15,11 +17,7 @@
 
 ## Відео
 
-[Переглянути демонстрацію роботи драйвера](st7789v_demo.mp4)
-
-----
-
-<video src="st7789v_demo.mp4" width="100%" controls></video>
+https://github.com/user-attachments/assets/6f021558-bcc2-4d54-b50a-3eb97e57f52f
 
 
 ## Підключення
@@ -100,6 +98,6 @@ gfx_fill_rect(20, 20, 120, 80, COLOR_GREEN);
 
 Демо проєкт робився в VS code з CMake toolchain, але при бажанні його легко можна перегенерувати для STM32CubeIDE.
 
-## p.s.
+## Подяка
 
 Під час створення драйвера надихався реалізаціями [Floyd-Fish/ST7789-STM32](https://github.com/Floyd-Fish/ST7789-STM32) та [deividAlfa/ST7789-STM32-uGUI](https://github.com/deividAlfa/ST7789-STM32-uGUI).
