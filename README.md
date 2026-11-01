@@ -6,6 +6,8 @@ A driver for ST7789-based displays that transfers data over SPI using DMA.
 
 The demo project is configured for the **STM32F401CCU6** and a **240 × 320** display. The current SPI1 configuration uses a `/2` prescaler (a theoretical SCK frequency of up to 42 MHz; the actual speed depends on the display and wiring).
 
+The driver architecture can be adapted relatively easily for **ILI9341**-based displays. The SPI/DMA transport and graphics layer can be reused, but the controller-specific commands and initialization sequence must be adapted. This version of the driver currently targets ST7789.
+
 ## Features
 
 - Transfers display data over SPI TX DMA.
