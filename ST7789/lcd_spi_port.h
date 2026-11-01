@@ -2,13 +2,13 @@
 #include "stm32f4xx_hal.h"
 
 typedef enum {
-    LCD_SPI_MEM_INCREMENT = 0,  // draw image, frame buffer, font?
+    LCD_SPI_MEM_INCREMENT = 0,  // draw image, frame buffer, fonts
     LCD_SPI_MEM_DMA_FIXED = 1,  // ONLY FOR DMA, fill window / rect / line
 } lcd_spi_mem_t;
 
 typedef enum {
-    LCD_SPI_SIZE_8BIT  = 0, // commands, draw 1 pixel, 8-bit frame buffer
-    LCD_SPI_SIZE_16BIT = 1, // image, fill rect, fill v/h lines, 16-bit frame buffer, font?
+    LCD_SPI_SIZE_8BIT  = 0, // commands, 8-bit frame buffer
+    LCD_SPI_SIZE_16BIT = 1, // image, fill rect, fill v/h lines, 16-bit frame buffer, fonts
 } lcd_spi_size_t;
 
 void lcd_spi_init(SPI_HandleTypeDef *hspi);
