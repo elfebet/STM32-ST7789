@@ -102,6 +102,6 @@ gfx_fill_rect(20, 20, 120, 80, COLOR_GREEN);
 
 Демо проєкт робився в VS code з CMake toolchain, але при бажанні його легко можна перегенерувати для STM32CubeIDE.
 
-## p.s.
+## Подяка
 
 Під час створення драйвера надихався реалізаціями [Floyd-Fish/ST7789-STM32](https://github.com/Floyd-Fish/ST7789-STM32) та [deividAlfa/ST7789-STM32-uGUI](https://github.com/deividAlfa/ST7789-STM32-uGUI).
